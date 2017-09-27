@@ -1,13 +1,13 @@
 function setup() {
-  createCanvas(800,600);
-  console.log(window.width, window.height);
+  createCanvas(windowWidth, windowHeight);
+  console.log(windowWidth, windowHeight);
   background(0);
 }
 
 
 function draw() {
-  translate(800/2, 600/2);
+  translate(windowWidth/2, windowHeight/2);
   noStroke();
   fill(240);
-  ellipse(mouseX, mouseY, width/10, height/10);
+  ellipse(mouseX, mouseY, windowWidth/10, windowWidth/10);
 }
