@@ -6,9 +6,9 @@ function setup() {
 
 
 function draw() {
+  noStroke();
   fill(2, 35);
   rect(0,0, windowWidth, windowHeight);
-  noStroke();
   fill(240);
   ellipse(mouseX, mouseY, windowWidth/10, windowWidth/10);
 }
