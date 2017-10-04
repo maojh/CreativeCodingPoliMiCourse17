@@ -7,13 +7,16 @@ var eyeSize = 35;
 
 //arti
 var largLeg = 50;
-var lenLeg = 170;
+var lenLeg = 170*0.7;
 
 var wheel = largLeg;
+var coord;
+var a = 1;
 
 function setup() {
   createCanvas(800, 600);
   noStroke();
+  coord = document.getElementById('coord');
 }
 
 function draw() {
@@ -32,34 +35,38 @@ function draw() {
               |--|
          3D _/    |_ 3S
   */
-  //1D - 1S
-  art1(190, 250, PI/3);
+  //1D - 1
+  art1(190, 260, (PI/6)*sin(a));
   //2D - 2S
   art2(230,280);
   //3D - 3S
   art3(350,280);
-  //
+
+  coord.innerHTML = mouseX + "-" + mouseY;
 }
 
 function testa(posx, posy) {
   push();
       translate(posx, posy);
-      fill(0, 0, 150, 200);
       //testa
-      ellipse(0, 0, 150, 100);
-      //occhi
-      fill(250, 150);
-      ellipse(-60, -20, eyeSize*1.1, eyeSize);
-      ellipse(-5, -20, eyeSize*1.3, eyeSize*1.2);
+      fill(0, 0, 150);
+      ellipse(0, 20, 150, 100);
       //antenna
-      fill(0, 0, 150, 200);
+      fill(0, 0, 150);
       push();
-        translate(-10, -45);
+        translate(-10, -30);
         rotate(-PI/2);
-        rect( 0, 0, 30, 10)
+        quad( 35, 8, 35, 2, 0, 0, 0, 10);
         translate(32, 0);
-        rect( 0, 0, 20, 10)
+        ellipse( 7, 5, 12, 10);
       pop();
+      //occhi
+      fill(250);
+      stroke('darkGrey');
+      strokeWeight(4);
+      ellipse(-60, -10, eyeSize*1.1, eyeSize);
+      ellipse(-5, -10, eyeSize*1.3, eyeSize*1.2);
+      noStroke();
     pop();
 }
 
@@ -67,14 +74,20 @@ function addome(posx, posy) {
   push();
     translate(posx, posy);
 
-    beginShape();
-      stroke('black');
-      strokeWeight(3);
-      curve(50, 50, 0, 0, 80, 20, 150, 80);
-    endShape();
     noStroke();
-    fill(0, 0, 150, 200);
-  //  rect(-100, -125, 200, 250);
+    fill(0, 0, 150);
+
+    beginShape();
+      bezier(  -30,   -120,
+              -100,   -120,
+              -130,    120,
+               -50,    130);
+      bezier(  30,   -120,
+              100,   -120,
+              130,    120,
+               50,    130);
+      quad(-50, 130, -30, -120, 30,-120, 50, 130);
+    endShape(CLOSE);
   pop();
 }
 
@@ -83,12 +96,14 @@ function art1(posx, posy, angle) {
   var largBra = largLeg*0.6;
   var polso = 25;
   var apert = PI/4;
+  stroke('darkGrey');
+  strokeWeight(3);
   push();
     translate(posx, posy);
-    fill(0, 0, 150, 200);
+    fill(0, 0, 150);
     push();
       rotate(angle);
-      rect(0, 0, largBra, lenBra);
+      ellipse(20, 40, largBra, lenBra*1.3);
       //chele
       //translate(-lenBra+25, largBra*1.8);
       translate(lenBra*0.2, largBra*2.8);
@@ -104,11 +119,10 @@ function art1(posx, posy, angle) {
         rotate(apert);
         rect(5,-5,27,10);
       pop();
-      fill('white');
+      //polso
+      fill('darkGrey');
       ellipse(0, 0, polso, polso);
     pop();
-
-
   pop();
 }
 
@@ -116,12 +130,26 @@ function art2(posx, posy) {
   push();
     translate(posx, posy);
 
-    fill(0, 0, 150, 200);
-    //arto
-    rect(0, 0, largLeg, lenLeg);
-    //rotella
+    fill(0, 0, 150);
+    //articolazione
     fill('grey');
-    ellipse(20, 150, wheel, wheel);
+    stroke('darkGrey');
+    ellipse(largLeg/2,largLeg*0.4,largLeg, largLeg);
+    //rotella
+    noStroke();
+    fill('darkGrey');
+    ellipse(6, 150, wheel, wheel);
+    fill('black');
+    ellipse(6, 150, wheel/2, wheel/2);
+    //arto
+    push();
+      //translate();
+      rotate(PI/24);
+      stroke('grey');
+      strokeWeight(3);
+      fill(0, 0, 150);
+      rect(0, 20, largLeg, lenLeg);
+    pop();
   pop();
 }
 
@@ -129,10 +157,22 @@ function art3(posx, posy) {
   push();
     translate(posx, posy);
 
-    fill(0, 0, 150, 200);
-    rect(0, 0, largLeg, lenLeg);
-    //piedi
     fill('grey');
-    rect(-15, 140, 65, 30);
+    ellipse(largLeg/2,largLeg*0.4,largLeg, largLeg);
+    //piedi
+    noStroke();
+    push();
+    translate(0, lenLeg);
+    fill('black');
+      bezier( -30, 50,
+             -30, 20,
+             50, -20,
+             60, 50);
+    pop();
+    //arto
+    stroke('grey');
+    strokeWeight(3);
+    fill(0, 0, 150);
+    rect(0, 20, largLeg, lenLeg);
   pop();
 }
