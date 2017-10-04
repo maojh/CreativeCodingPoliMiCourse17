@@ -42,7 +42,8 @@ function draw() {
   //3D - 3S
   art3(350,280);
 
-  coord.innerHTML = mouseX + "-" + mouseY;
+  coord.innerHTML = "";
+  coord.innerHTML = mouseX + "-" + int(mouseY);
 }
 
 function testa(posx, posy) {
