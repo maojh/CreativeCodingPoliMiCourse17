@@ -32,11 +32,13 @@ function draw() {
   circle1();
 
   if(frameCount==189) {
-    save("momentum-###.jpg");
     noLoop();
   }
 }
 
+function mousePressed() {
+      save("momentum.jpg");
+}
 
 function circle1() {
   stroke(sin(frameCount/120)*255, 120, 200);
