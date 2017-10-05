@@ -13,7 +13,7 @@ function setup() {
   noFill();
   stroke(255);
   //strokeWeight(2);
-  background(30);
+  background(255);
   frameRate(speed);
   colorMode(HSB);
   col1 = color('Fuchsia');
