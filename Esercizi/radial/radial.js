@@ -20,6 +20,7 @@ function draw() {
     translate( radius/2, 0)
     rotate(frameCount/speed);
     for(var p=0; p>-radius*cos(frameCount/speed); p-=5) {
+      stroke(0);
       point(p, 0);
     }
   pop();
