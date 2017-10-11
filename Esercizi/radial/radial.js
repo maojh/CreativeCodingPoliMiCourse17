@@ -31,5 +31,5 @@ function draw() {
 }
 
 function mousePressed() {
-   save("radial-###.jpg");
+   save("radial.png");
 }
