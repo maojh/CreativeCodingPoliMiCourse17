@@ -4,11 +4,11 @@
 
 var song, amplitude;
 var moveY = 0;
-var picco = -50;
+var picco = -100;
 var passo;
 var s = 0.4; //scala
 
-var trasback = 50;
+var trasback = 2;
 var light = true;
 
 var lines = new Array();
@@ -44,7 +44,7 @@ function setup() {
 
   // responsive unit
   u = (windowWidth/windowHeight);
-  passo = int(20*u);
+  passo = int(35*u);
   console.log(passo);
   noStroke();
   textSize(24);
@@ -78,7 +78,7 @@ function draw() {
 
   sole(level);
 
-  translate(0, height/2.7); // /2.5 horizon
+  translate(0, height/3.3); // /2.5 horizon
   moveY += map(level, 0, 1, 0, 50);
   if (moveY >= height) {
     moveY = 0; //partenza
@@ -99,14 +99,14 @@ function draw() {
   //   }
 
   if (light) {
-    fill(100,100,255, 50);
-    stroke(255, 240, 255);
+    fill(0,0,55, 50);
+    stroke(255, 255);
   } else {
     fill(0,0,55, 50);
-    stroke(255, 240, 255);
+    stroke(55, 255);
   }
   //   stroke(levelcolor, random(levelcolor), random(levelcolor)); // waveform is red
-  strokeWeight(1);
+  strokeWeight(2);
   //sinistra
   beginShape();
   for (var i = 0; i< spectrum.length; i+=passo){
@@ -156,51 +156,51 @@ function sole(level) {
 
 function sfondo(light) {
   var val;
-  var dens = 5*u;
+  var dens = 10*u;
   var seconds = millis()/1000;
-  if(seconds < 10) {
-    if(trasback>5) {
-      trasback-=5;
-    }
-    // ramp down - intro
-  }
-  if( seconds > 3) {
-    if(trasback>10) {
-      trasback+=5;
-    }
-    //ramp up - conclusione
-  }
-
+  // if(seconds < 4) {
+  //   if(trasback>1) {
+  //     trasback-=5;
+  //   }
+  //   // ramp down - intro
+  // }
+  // if( seconds > 110) {
+  //   if(trasback>width/1500) {
+  //     trasback+=5;
+  //   }
+  //   //ramp up - conclusione
+  // }
+push();
   if(light) {
   for (var i = 0; i < height; i+=dens) {
     if(i<height/3) {
       val = int(map(i, 0, height/6, 245, 180));
-      fill(val, 0, val/2, trasback);
+      fill(val, 0, val/2, trasback*10);
     } else {
-      val = int(map(i, height/4, height, 0, 205));
+      val = int(map(i, height/3, height, 50, 205));
       fill(0, val/4, val, trasback);
     }
-    rect(0, i, width, 10*u);
+    rect(0, i, width, dens);
   }
 } else {
   for (var i = 0; i < height; i+=dens) {
     if(i<height/3) {
       val = map(i, 0, height/4, 180, 245)/2;
-      fill(val, 0, val/2, trasback);
+      fill(val, 0, val/2, trasback*10);
     } else {
       val = map(i, height/4, hleight, 180, 245)/2;
       fill(0, val/4, val, trasback);
     }
-    rect(0, i, width, u);
+    rect(0, i, width, dens);
   }
 }
+pop();
 }
 //Utilità
 //
 //Screenshot function
 function mousePressed() {
-  // save();
-
+  save("cover.png");
   //play/pause song loop
   push();
   fill(0,255,0);
