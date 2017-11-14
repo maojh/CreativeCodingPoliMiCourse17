@@ -78,7 +78,7 @@ function Astronaut(launchDate, name, title, poy, pox) {
     this.display = function(i) {
         this.x = i*this.radius;
 
-        var mX = map(mouseX, 0, windowWidth, -width/2, width/2);
+        var mX = map(mouseX, 0, windowWidth, -width/2, width/2, true);
         // var mouse = width/1.4-mX;
         var mouse = mX;
 
