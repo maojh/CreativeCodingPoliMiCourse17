@@ -4,12 +4,19 @@ var mw, mh;
 
 function preload() {
   myData = loadJSON('assets/peopleinspace.json');
+  // terra = loadImage("assets/moonwalk.jpg");
+  // iss = loadImage("assets/moonwalk.jpg");
+  // a1 = loadImage("assets/moonwalk.jpg");
+  // a2 = loadImage("assets/moonwalk.jpg");
+  // a3 = loadImage("assets/moonwalk.jpg");
+  // a4 = loadImage("assets/moonwalk.jpg");
+  // a5 = loadImage("assets/moonwalk.jpg");
+  // a6 = loadImage("assets/moonwalk.jpg");
 }
 
 function setup() {
   createCanvas(500, 500);
 
-  //print(myData);
   for(var i = 0; i < myData.people.length; i++) {
     var astroData = myData.people[i];
     var newAstronaut = new Astronaut(astroData.launchdate, astroData.name, astroData.title, astroData.country);
@@ -27,18 +34,19 @@ function draw() {
   translate(width/2, height/2);
 
   iss.display();
+
+  // noLoop();
 }
 
 function station(people) {
   this.incrementX = 1;
-  this.pox = height/2;
+  this.pox = width/2;
 
   this.display = function() {
     push();
       if(this.incrementX > width-mw || this.incrementX < mw) {
         this.incrementX = 1 - this.incrementX;
       } else {
-        print(iss.pox)
         translate(this.pox, 0);
         this.pox += this.incrementX;
       }
@@ -56,6 +64,7 @@ function Astronaut(launchDate, name, title, poy, pox) {
     this.title = title;
     this.x = pox;
     this.y = poy;
+    this.radius = 20;
 
     // transform the launch date from String
     // to a date Object calculated in milliseconds
@@ -63,22 +72,26 @@ function Astronaut(launchDate, name, title, poy, pox) {
     // calculate the time spent in space
     this.timeInSpace = Date.now() - this.launchDate;
 
+    this.hover = function() {
+    }
+
     this.display = function(i) {
-        var xpos = i*20;
-        print(xpos);
-        if(this.title == 'commander') {
-          fill(50,50,250);
-        } else {
-          fill(200,250,200);
+        this.x = i*this.radius;
+
+        var mX = map(mouseX, 0, windowWidth, -width/2, width/2);
+        // var mouse = width/1.4-mX;
+        var mouse = mX;
+
+        if( int(dist(mouse, mouseY, this.x, height/2))<=this.radius/2) {
+          push();
+            fill(155);
+            // rotate(HALF_PI);
+            textAlign(CENTER);
+            print(this.name);
+            text(this.name, mouse, +1.5*this.radius);
+          pop();
         }
-
-        ellipse( xpos, 0, 20);
-
-        push();
-          fill(0);
-          rotate(HALF_PI);
-          textAlign(CENTER);
-          text(this.name, xpos, 0);
-        pop();
+          ellipse(this.x, 0, 20);
+          print(mouse);
     }
 }
