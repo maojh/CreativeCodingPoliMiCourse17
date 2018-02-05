@@ -1,0 +1,4 @@
+apply kalmanFilterJS to accelerationY
+
+random walker for big germs
+noisy horizontal path for small ones
