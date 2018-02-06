@@ -15,7 +15,7 @@ var hpg = 0
 
 var oX,oY
 var swarm
-var tool = "soap"
+var tool = "ammo"
 
 function setup() {
   pixelDensity(1); // this makes the internal p5 canvas smaller
@@ -102,42 +102,33 @@ function Swarm() {
   }
 
   this.germKilled = function(germ,dim) {
-    var target //type of germs that could be killed
-    var prob //probability to kill the germ touched
-    switch (tool) {
-      case "alcohol":
-        target = "all"
-        prob = 1
-      break;
-      case "soap":
-        target = "none"
-        prob = 1
-      break;
-      case "ammo":
-        target = "d"
-        prob = 1
-      break;
-      case "soda":
-        target = "all"
-        prob = .5
-      break;
-      default:
-      target = "none"
-      prob = 0
-    }
+    // if already dead and it is time to return
     if(germ.respawn==0){
       germ.dead = false
       germ.respawn = this.respTime
     }
+
     var killing = dist(mouseX, mouseY, oX+germ.x, oY+germ.y)
     if (killing<dim) {
       if (tool=="soap") {
         this.germsMove(germ, 150)
       }
-      if(germ.type == target || target == "all") {
-        if (random(0,1)>prob) {
+      if (tool=="ammo") {
+        console.log(germ.types);
+        if(germ.types=="d"){
           germ.dead = true
         }
+      }
+      if(tool == "soda") {
+        if(germ.types=="d"){
+          console.log(germ.types);
+          if (random(0,1)>0.5) {
+            germ.dead = true
+          }
+        }
+      }
+      if(tool == "alkohol") {
+          germ.dead = true
       }
     }
     // germ.dead = true
@@ -178,6 +169,7 @@ function Swarm() {
       this.germKilled(germ, dim)
       // sw.scale(1, 1)
       dim *= siz
+
       if (!germ.dead) {
         push()
           sw.fill(col)
@@ -190,7 +182,6 @@ function Swarm() {
         pop()
         germ.respawn--
       }
-
 
     }
     move = false
@@ -289,3 +280,14 @@ function windowResized() {
 // texture(sw)
 // plane(l,l)
 // pop()
+
+// var t = 0
+// function mousePressed() {
+//     var tools = ['soap','soda','alkohol','ammo']
+//     tool = tools[t]
+//     t++
+//     if (t>3) {
+//       t=0
+//     }
+//     console.log(tool);
+// }
