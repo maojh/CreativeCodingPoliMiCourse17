@@ -9,7 +9,7 @@ var w = 0,
     h = 0;
 var raster, param, pmat, resultMat, detector;
 
-var pg, sw
+var pg, sw, swimage
 var wpg = 0
 var hpg = 0
 
@@ -34,9 +34,7 @@ function setup() {
   detector.setContinueMode(true);
 
 
-  wsg =  w
-  hsg = h
-  sw = createGraphics(wsg,hsg, P2D)
+  sw = createGraphics(w, h, P2D)
   // sw.translate(wsg/4,hsg/4, 0)
   sw.noStroke()
 
@@ -71,21 +69,22 @@ function Swarm() {
   this.populate = function() {
     var boundW = w*0.45
     var boundH = h*0.45
+
     var ntypeA = this.nGerms*0.45
     for (var i = 0; i < ntypeA; i++) {
-      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"a", "speed":5})
+      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"a", "speed":5, "dead":false})
     }
     var ntypeB = this.nGerms*0.15
     for (var i = 0; i < ntypeB; i++) {
-      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"b", "speed":5})
+      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"b", "speed":5, "dead":false})
     }
     var ntypeC = this.nGerms*0.02
     for (var i = 0; i < ntypeC; i++) {
-      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"c", "speed":5})
+      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"c", "speed":5, "dead":false})
     }
     var ntypeD = this.nGerms*0.38
     for (var i = 0; i < ntypeD; i++) {
-      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"d", "speed":5})
+      this.germs.push({"x":random(-boundW, boundW), "y":random(-boundH, boundH), "types":"d", "speed":5, "dead":false})
     }
  }
  this.germsMove = function(germ) {
@@ -98,43 +97,46 @@ function Swarm() {
   this.show = function(ox, oy, tilt, siz, move) {
     sw.image(capture)
     for(var germ of this.germs) {
-      if(move){
-        this.germsMove(germ)
-      }
+      if (true) {
+        if(move){
+          this.germsMove(germ)
+        }
 
-      var dim = 5
-      var col = ''
-      switch (germ.types) {
-        case "a":
+        var dim = 5
+        var col = ''
+        switch (germ.types) {
+          case "a":
           dim = this.dimType[0]
           col = 'black'
-        break;
-        /****/
-        case "b":
+          break;
+          /****/
+          case "b":
           dim = this.dimType[1]
           col = 'blue'
-        break;
-        /****/
-        case "c":
+          break;
+          /****/
+          case "c":
           dim = this.dimType[2]
           col = 'green'
-        break;
-        /****/
-        case "d":
+          break;
+          /****/
+          case "d":
           dim = this.dimType[3]
           col = 'yellowGreen'
-        break;
-        default:
+          break;
+          default:
+        }
+        push()
+        sw.scale(1, 1)
+        // console.log(tilt);
+        dim *= siz
+        sw.fill(col)
+        sw.ellipse(ox + germ.x, oy+germ.y,dim, dim*tilt)
+        pop()
       }
-      push()
-      sw.scale(1, 1)
-      console.log(tilt);
-      dim *= siz
-      sw.fill(col)
-      sw.ellipse(ox + germ.x, oy+germ.y,dim, dim*tilt)
-      pop()
-    }
-    move = false
+      move = false
+
+      }
   }
 }
 
@@ -196,7 +198,7 @@ function myDetector() {
       var siz = map(abs(verts[0][0]-verts[1][0]), 20, 100, 0.1, 2)
       var tilt = map(abs(verts[1][1]-verts[2][1]), 20, 100, 0.3,1)
       swarm.show(oX, oY, tilt, siz, true)
-      image(sw)
+      swimage = image(sw)
 
       push()
       // fill('orange')
@@ -210,6 +212,8 @@ function windowResized() {
 
   //Update layout variable to adapt the size of the elements
   unit = windowWidth / 100
+  w = windowWidth
+  h = windowHeight
   space = unit * 3
 }
 
